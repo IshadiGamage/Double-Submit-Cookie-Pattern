@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Double Submit Cookie Pattern</title>
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+    <script>
+        function onLoad(){
+
+            var mycookies = document.cookie;
+            console.log("All Cookies :" + mycookies);
+
+            // Get all the cookies pairs in an array of key and value
+            cookiearray = mycookies.split(';');
+            for (var i = 0; i < cookiearray.length; i++) {
+                cookie_name = cookiearray[i].split('=')[0];
+                cookie_value = cookiearray[i].split('=')[1];
+                if (cookie_name === '_csrf') {
+                    var form = document.getElementById("form");
+                    var input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "_csrf";
+                    input.value = cookie_value;
+                    form.appendChild(input);
+                }
+            }
+        }
+    </script>
+
+
+</head>
+<body onload="onLoad()">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Double Submit Cookie Pattern</a>
+        </div>
+
+    </div>
+</nav>
+<div class="container">
+
+    <div class="jumbotron">
+
+        <br>
+
+        <div class="login">
+
+            <form id="form" class="form-horizontal" method="post" action="/login">
+
+                <div class="form-group">
+                    <label for="username" class="control-label col-xs-2">Email</label>
+                    <div class="col-xs-4">
+                        <input type="text" id="username" name="username" placeholder="Username" value="ish" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label col-xs-2">Password</label>
+                    <div class="col-xs-4">
+                        <input type="password" id="password" name="password" placeholder="Password" value="123" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-offset-2 col-xs-10">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">Login</button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+</body>
+</html>
+
